@@ -641,14 +641,27 @@ hr { border-color: rgba(148,163,184,0.12) !important; margin: 1rem 0 !important;
 # ── Load Artifacts ─────────────────────────────────────────────────────────────
 @st.cache_resource
 def load_artifacts():
-    base = os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', 'src')
-    with open(os.path.join(base, 'soh_model.pkl'), 'rb') as f:
+    # Try ../src first (local structure: app/app.py + src/)
+    app_dir  = os.path.dirname(os.path.abspath(__file__))
+    src_path = os.path.join(app_dir, '..', 'src')
+
+    # Fallback 1: src/ at repo root (Streamlit Cloud flat deploy)
+    if not os.path.exists(os.path.join(src_path, 'soh_model.pkl')):
+        src_path = os.path.join(app_dir, 'src')
+
+    # Fallback 2: same folder as app.py
+    if not os.path.exists(os.path.join(src_path, 'soh_model.pkl')):
+        src_path = app_dir
+
+    src_path = os.path.normpath(src_path)
+
+    with open(os.path.join(src_path, 'soh_model.pkl'), 'rb') as f:
         soh_model = pickle.load(f)
-    with open(os.path.join(base, 'rul_model.pkl'), 'rb') as f:
+    with open(os.path.join(src_path, 'rul_model.pkl'), 'rb') as f:
         rul_model = pickle.load(f)
-    with open(os.path.join(base, 'scaler.pkl'), 'rb') as f:
+    with open(os.path.join(src_path, 'scaler.pkl'), 'rb') as f:
         scaler = pickle.load(f)
-    with open(os.path.join(base, 'feature_cols.json'), 'r') as f:
+    with open(os.path.join(src_path, 'feature_cols.json'), 'r') as f:
         feature_cols = json.load(f)
     return soh_model, rul_model, scaler, feature_cols
 
