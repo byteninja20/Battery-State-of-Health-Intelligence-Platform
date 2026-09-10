@@ -268,23 +268,29 @@ html, body, [class*="css"], .stApp {
 }
 .kpi-card {
     border-radius: 12px;
-    padding: 1.1rem 1.25rem;
-    background: var(--kpi-bg, rgba(255,255,255,0.05));
-    border: 1px solid var(--kpi-border, rgba(148,163,184,0.12));
+    padding: 1.1rem 1.25rem 1rem;
+    background: rgba(37,99,235,0.03);
+    border: 1px solid rgba(148,163,184,0.14);
     position: relative;
     overflow: hidden;
     transition: transform 0.15s ease, box-shadow 0.15s ease;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.04);
 }
 .kpi-card:hover {
-    transform: translateY(-1px);
-    box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 24px rgba(0,0,0,0.09);
 }
 .kpi-accent-bar {
     position: absolute;
     top: 0; left: 0; right: 0;
-    height: 3px;
+    height: 4px;
     border-radius: 12px 12px 0 0;
 }
+.kpi-green  { background: rgba(22,163,74,0.04);  border-color: rgba(22,163,74,0.15); }
+.kpi-yellow { background: rgba(202,138,4,0.04);  border-color: rgba(202,138,4,0.15); }
+.kpi-orange { background: rgba(234,88,12,0.04);  border-color: rgba(234,88,12,0.15); }
+.kpi-red    { background: rgba(220,38,38,0.04);  border-color: rgba(220,38,38,0.15); }
+.kpi-blue   { background: rgba(37,99,235,0.04);  border-color: rgba(37,99,235,0.15); }
 .kpi-label {
     font-size: 0.67rem;
     font-weight: 600;
@@ -310,11 +316,11 @@ html, body, [class*="css"], .stApp {
 .kpi-orange .kpi-value { color: #EA580C; }
 .kpi-red    .kpi-value { color: #DC2626; }
 .kpi-blue   .kpi-value { color: #2563EB; }
-.kpi-green  .kpi-accent-bar { background: #16A34A; }
-.kpi-yellow .kpi-accent-bar { background: #CA8A04; }
-.kpi-orange .kpi-accent-bar { background: #EA580C; }
-.kpi-red    .kpi-accent-bar { background: #DC2626; }
-.kpi-blue   .kpi-accent-bar { background: #2563EB; }
+.kpi-green  .kpi-accent-bar { background: linear-gradient(90deg,#16A34A,#4ADE80); }
+.kpi-yellow .kpi-accent-bar { background: linear-gradient(90deg,#CA8A04,#FDE047); }
+.kpi-orange .kpi-accent-bar { background: linear-gradient(90deg,#EA580C,#FB923C); }
+.kpi-red    .kpi-accent-bar { background: linear-gradient(90deg,#DC2626,#F87171); }
+.kpi-blue   .kpi-accent-bar { background: linear-gradient(90deg,#2563EB,#60A5FA); }
 
 /* ── Health Alert Cards ── */
 .health-alert {
@@ -345,18 +351,10 @@ html, body, [class*="css"], .stApp {
     content: '→ ';
     opacity: 0.6;
 }
-/* Translucent tinted fills (instead of hardcoded pastel light backgrounds)
-   so alert cards read correctly on both light and dark Streamlit themes. */
-.alert-green  { background: rgba(22,163,74,0.10);  border-color: var(--status-green);  color: inherit; }
-.alert-yellow { background: rgba(202,138,4,0.10);  border-color: var(--status-yellow); color: inherit; }
-.alert-orange { background: rgba(234,88,12,0.10);  border-color: var(--status-orange); color: inherit; }
-.alert-red    { background: rgba(220,38,38,0.10);  border-color: var(--status-red);    color: inherit; }
-.health-alert-title { color: inherit; }
-.health-alert-body  { color: inherit; opacity: 0.85; }
-
-@media (prefers-color-scheme: dark) {
-    .biq-header { background: linear-gradient(135deg, #14243B 0%, #1D4ED8 60%, #2563EB 100%) !important; }
-}
+.alert-green  { background: var(--status-green-bg);  border-color: var(--status-green);  color: #14532D; }
+.alert-yellow { background: var(--status-yellow-bg); border-color: var(--status-yellow); color: #713F12; }
+.alert-orange { background: var(--status-orange-bg); border-color: var(--status-orange); color: #7C2D12; }
+.alert-red    { background: var(--status-red-bg);    border-color: var(--status-red);    color: #7F1D1D; }
 
 /* ── Input group cards ── */
 .input-group {
@@ -484,20 +482,7 @@ html, body, [class*="css"], .stApp {
     color: #2563EB;
 }
 
-/* ── Fleet upload zone ── */
-.upload-zone {
-    border: 2px dashed rgba(37,99,235,0.25);
-    border-radius: 12px;
-    padding: 2rem;
-    text-align: center;
-    background: rgba(37,99,235,0.03);
-    margin-bottom: 1rem;
-    transition: border-color 0.2s ease;
-}
-.upload-zone:hover { border-color: rgba(37,99,235,0.5); }
-.upload-zone-icon { font-size: 2rem; margin-bottom: 0.5rem; }
-.upload-zone-title { font-size: 0.9rem; font-weight: 600; color: #1E40AF; margin-bottom: 0.25rem; }
-.upload-zone-sub { font-size: 0.75rem; color: #94A3B8; }
+/* upload-zone removed — using styled native Streamlit uploader */
 
 /* ── India mode ── */
 .india-header {
@@ -578,6 +563,59 @@ html, body, [class*="css"], .stApp {
     color: #64748B !important;
 }
 
+/* ── Matplotlib dark mode chart fix ── */
+[data-testid="stPyplotUserplot"],
+[data-testid="stPyplotUserplot"] > div,
+.stPyplot, .stPyplot > div {
+    background: transparent !important;
+    border-radius: 10px;
+    overflow: hidden;
+}
+[data-testid="stPyplotUserplot"] iframe,
+[data-testid="stPyplotUserplot"] canvas {
+    background: transparent !important;
+}
+
+/* ── Hide Streamlit native upload drag zone — use custom one ── */
+[data-testid="stFileUploadDropzone"] {
+    background: transparent !important;
+    border: 1.5px dashed rgba(37,99,235,0.3) !important;
+    border-radius: 10px !important;
+    padding: 1.25rem !important;
+}
+[data-testid="stFileUploadDropzone"]:hover {
+    border-color: rgba(37,99,235,0.6) !important;
+    background: rgba(37,99,235,0.03) !important;
+}
+[data-testid="stFileUploadDropzone"] > div {
+    gap: 8px !important;
+}
+[data-testid="stFileUploadDropzone"] span {
+    font-size: 0.8rem !important;
+    color: #64748B !important;
+}
+[data-testid="stFileUploaderFileName"] {
+    font-size: 0.8rem !important;
+    font-weight: 500 !important;
+}
+
+/* ── Sidebar proper dark background ── */
+section[data-testid="stSidebar"] {
+    background: #0D1B2E !important;
+    border-right: 1px solid rgba(255,255,255,0.05) !important;
+    min-width: 240px !important;
+}
+section[data-testid="stSidebar"] > div:first-child {
+    background: #0D1B2E !important;
+    padding: 1.25rem 1rem !important;
+}
+section[data-testid="stSidebar"] p,
+section[data-testid="stSidebar"] span,
+section[data-testid="stSidebar"] div,
+section[data-testid="stSidebar"] label {
+    color: #94A3B8 !important;
+}
+
 /* ── Divider ── */
 hr { border-color: rgba(148,163,184,0.12) !important; margin: 1rem 0 !important; }
 
@@ -615,38 +653,6 @@ def load_artifacts():
     return soh_model, rul_model, scaler, feature_cols
 
 soh_model, rul_model, scaler, feature_cols = load_artifacts()
-
-
-# ── Slider + Numeric Input (precision entry) ────────────────────────────────────
-def precise_slider(label, min_v, max_v, default, step, key, is_int=False, help=None):
-    """Renders a slider paired with a synced numeric input box so users can
-    type an exact value instead of only dragging."""
-    num_key = f"{key}__num"
-    if key not in st.session_state:
-        st.session_state[key] = default
-    if num_key not in st.session_state:
-        st.session_state[num_key] = default
-
-    def _from_slider():
-        st.session_state[num_key] = st.session_state[key]
-
-    def _from_number():
-        v = st.session_state[num_key]
-        v = max(min_v, min(max_v, v))
-        st.session_state[key] = v
-        st.session_state[num_key] = v
-
-    col_s, col_n = st.columns([4, 1.3])
-    with col_s:
-        st.slider(label, min_v, max_v, step=step, key=key, on_change=_from_slider, help=help)
-    with col_n:
-        fmt = "%d" if is_int else None
-        st.number_input(
-            label, min_value=min_v, max_value=max_v, step=step,
-            key=num_key, on_change=_from_number,
-            label_visibility="collapsed", format=fmt
-        )
-    return st.session_state[key]
 
 
 # ── Sidebar ────────────────────────────────────────────────────────────────────
@@ -897,7 +903,8 @@ with tab1:
         display_labels = [feat_labels.get(f, f) for f in top_feats]
 
         fig, ax = plt.subplots(figsize=(9, 3.8))
-        fig.patch.set_alpha(0)
+        fig.patch.set_facecolor('none')
+        fig.patch.set_alpha(0.0)
         ax.set_facecolor('none')
         bar_colors = ['#DC2626' if v > 0 else '#16A34A' for v in top_shap]
         bars = ax.barh(range(len(display_labels)), top_shap[::-1],
@@ -907,22 +914,6 @@ with tab1:
         ax.set_yticklabels(display_labels[::-1], fontsize=8.5,
                            fontfamily='sans-serif', color='#94A3B8')
         ax.axvline(x=0, color='#475569', linewidth=0.7, linestyle='--')
-
-        # Scale the axis to the actual data range (with a little breathing
-        # room) instead of a fixed range — otherwise small SHAP values get
-        # squashed into a sliver in the middle of the chart.
-        max_abs = max(np.max(np.abs(top_shap)), 1e-6)
-        pad = max_abs * 0.35
-        ax.set_xlim(-max_abs - pad, max_abs + pad)
-
-        # Value labels at the end of each bar for readability
-        for i, v in enumerate(top_shap[::-1]):
-            y = i
-            offset = max_abs * 0.03
-            ax.text(v + offset if v >= 0 else v - offset, y, f'{v:+.3f}',
-                    va='center', ha='left' if v >= 0 else 'right',
-                    fontsize=7.5, color='#94A3B8')
-
         ax.set_xlabel('SHAP value (impact on SoH)', fontsize=8, color='#64748B')
         ax.tick_params(axis='x', colors='#64748B', labelsize=8)
         ax.tick_params(axis='y', length=0)
@@ -931,7 +922,8 @@ with tab1:
         ax.set_title('Red = accelerates degradation   ·   Green = preserves health',
                      fontsize=8, color='#64748B', pad=8, loc='left')
         plt.tight_layout(pad=0.8)
-        st.pyplot(fig, use_container_width=True)
+        # transparent PNG so chart blends in both light and dark mode
+        st.pyplot(fig, transparent=True, use_container_width=True)
         plt.close()
 
         st.divider()
@@ -944,42 +936,6 @@ with tab1:
         </div>
         """, unsafe_allow_html=True)
 
-    # ── QUICK PRESETS ────────────────────────────────────────────────────
-    st.markdown('<div class="biq-section-label">🎛 &nbsp;Quick Presets</div>',
-                unsafe_allow_html=True)
-
-    PRESETS = {
-        'Custom (manual entry)': None,
-        'Healthy — Fresh battery': dict(
-            avg_v=3.65, min_v=3.0, max_v=4.2, avg_i=1.5,
-            avg_t=28.0, max_t=33.0, disc_t=3800, cyc=15,
-            r_cap=2.1, r_std=0.005, r_v=3.7, r_t=28.0, r_dt=3750),
-        'Monitor — Mid-life, India summer': dict(
-            avg_v=3.5, min_v=2.7, max_v=4.2, avg_i=1.8,
-            avg_t=38.0, max_t=45.0, disc_t=3500, cyc=90,
-            r_cap=1.8, r_std=0.01, r_v=3.5, r_t=37.0, r_dt=3400),
-        'Critical — Aged, heat-stressed': dict(
-            avg_v=3.3, min_v=2.4, max_v=4.1, avg_i=2.4,
-            avg_t=44.0, max_t=52.0, disc_t=2600, cyc=160,
-            r_cap=1.3, r_std=0.03, r_v=3.3, r_t=43.0, r_dt=2550),
-    }
-    preset_name = st.selectbox('Load a preset to auto-fill the fields below, or choose Custom to enter your own',
-                                list(PRESETS.keys()))
-    if st.button('Apply Preset', disabled=(preset_name == 'Custom (manual entry)')):
-        p = PRESETS[preset_name]
-        preset_keys = dict(
-            avg_voltage=p['avg_v'], min_voltage=p['min_v'], max_voltage=p['max_v'],
-            avg_current=p['avg_i'], avg_temp=p['avg_t'], max_temp=p['max_t'],
-            discharge_time=p['disc_t'], cycle_index=p['cyc'],
-            rolling_avg_cap=p['r_cap'], rolling_std_cap=p['r_std'],
-            rolling_avg_volt=p['r_v'], rolling_avg_temp=p['r_t'],
-            rolling_disc_time=p['r_dt'],
-        )
-        for k, v in preset_keys.items():
-            st.session_state[k] = v
-            st.session_state[f"{k}__num"] = v
-        st.rerun()
-
     # ── INPUT SECTION ─────────────────────────────────────────────────────
     st.markdown('<div class="biq-section-label">⚙ &nbsp;Battery Cycle Parameters</div>',
                 unsafe_allow_html=True)
@@ -988,51 +944,35 @@ with tab1:
 
     with col_l:
         with st.expander("Electrical Signals — Voltage & Current", expanded=True):
-            avg_voltage  = precise_slider('Average Voltage (V)',  2.5, 4.5, 3.5, 0.01, 'avg_voltage',
-                                           help='Mean terminal voltage across the discharge cycle')
-            min_voltage  = precise_slider('Minimum Voltage (V)',  2.0, 3.5, 2.7, 0.01, 'min_voltage',
-                                           help='Cut-off voltage at end of discharge')
-            max_voltage  = precise_slider('Maximum Voltage (V)',  3.5, 4.5, 4.2, 0.01, 'max_voltage',
-                                           help='Voltage at start of discharge, right after charging')
-            avg_current  = precise_slider('Average Current (A)',  0.5, 3.0, 1.8, 0.1, 'avg_current',
-                                           help='Mean discharge current drawn during the cycle')
+            avg_voltage  = st.slider('Average Voltage (V)',  2.5, 4.5, 3.5, 0.01)
+            min_voltage  = st.slider('Minimum Voltage (V)',  2.0, 3.5, 2.7, 0.01)
+            max_voltage  = st.slider('Maximum Voltage (V)',  3.5, 4.5, 4.2, 0.01)
+            avg_current  = st.slider('Average Current (A)',  0.5, 3.0, 1.8, 0.1)
             voltage_drop = max_voltage - min_voltage
             st.markdown(f'<div class="derived-pill">⚡ Voltage drop: <strong>{voltage_drop:.3f} V</strong></div>',
                         unsafe_allow_html=True)
 
         with st.expander("Thermal Parameters — Temperature"):
-            avg_temp  = precise_slider('Average Temperature (°C)', 20.0, 50.0, 32.0, 0.5, 'avg_temp')
-            max_temp  = precise_slider('Maximum Temperature (°C)', 25.0, 60.0, 39.0, 0.5, 'max_temp')
+            avg_temp  = st.slider('Average Temperature (°C)', 20.0, 50.0, 32.0, 0.5)
+            max_temp  = st.slider('Maximum Temperature (°C)', 25.0, 60.0, 39.0, 0.5)
             temp_rise = max_temp - avg_temp
             st.markdown(f'<div class="derived-pill">🌡 Temp rise: <strong>{temp_rise:.1f} °C</strong></div>',
                         unsafe_allow_html=True)
 
     with col_r:
         with st.expander("Discharge Parameters", expanded=True):
-            discharge_time = precise_slider('Discharge Time (seconds)', 1000, 5000, 3500, 10, 'discharge_time', is_int=True)
-            cycle_index    = precise_slider('Current Cycle Number', 0, 200, 50, 1, 'cycle_index', is_int=True)
+            discharge_time = st.slider('Discharge Time (seconds)', 1000, 5000, 3500, 10)
+            cycle_index    = st.slider('Current Cycle Number', 0, 200, 50)
 
         with st.expander("Rolling History — Last 5 Cycles"):
-            rolling_avg_cap   = precise_slider('Rolling Avg Capacity (Ah)',       1.0, 2.5, 1.8, 0.01, 'rolling_avg_cap')
-            rolling_std_cap   = precise_slider('Rolling Std Capacity',            0.0, 0.1, 0.01, 0.001, 'rolling_std_cap')
-            rolling_avg_volt  = precise_slider('Rolling Avg Voltage (V)',         3.0, 4.0, 3.5, 0.01, 'rolling_avg_volt')
-            rolling_avg_temp  = precise_slider('Rolling Avg Temperature (°C)',    20.0, 50.0, 32.0, 0.5, 'rolling_avg_temp')
-            rolling_disc_time = precise_slider('Rolling Avg Discharge Time (s)',  1000, 5000, 3400, 10, 'rolling_disc_time', is_int=True)
+            rolling_avg_cap   = st.slider('Rolling Avg Capacity (Ah)',       1.0, 2.5, 1.8, 0.01)
+            rolling_std_cap   = st.slider('Rolling Std Capacity',            0.0, 0.1, 0.01, 0.001)
+            rolling_avg_volt  = st.slider('Rolling Avg Voltage (V)',         3.0, 4.0, 3.5, 0.01)
+            rolling_avg_temp  = st.slider('Rolling Avg Temperature (°C)',    20.0, 50.0, 32.0, 0.5)
+            rolling_disc_time = st.slider('Rolling Avg Discharge Time (s)',  1000, 5000, 3400, 10)
 
     st.markdown('<br>', unsafe_allow_html=True)
-    col_run, col_reset = st.columns([4, 1])
-    with col_run:
-        run = st.button('Run Battery Analysis', use_container_width=True)
-    with col_reset:
-        if st.button('Reset', use_container_width=True, help='Clear results and reset all fields'):
-            for k in list(st.session_state.keys()):
-                if k in ('soh_result', 'rul_result', 'ir_result', 'energy_result',
-                          'shap_vals', 'df_scaled') or k.startswith((
-                              'avg_voltage', 'min_voltage', 'max_voltage', 'avg_current',
-                              'avg_temp', 'max_temp', 'discharge_time', 'cycle_index',
-                              'rolling_')):
-                    del st.session_state[k]
-            st.rerun()
+    run = st.button('Run Battery Analysis', use_container_width=True)
 
     if run:
         capacity_fade_rate   = -0.003 * cycle_index
@@ -1110,44 +1050,16 @@ with tab2:
     </div>
     """, unsafe_allow_html=True)
 
-    st.markdown("""
-    <div class="upload-zone">
-        <div class="upload-zone-icon">📂</div>
-        <div class="upload-zone-title">Drop your battery fleet CSV here</div>
-        <div class="upload-zone-sub">Supported format: CSV · Each row = one discharge cycle · Max 200 MB</div>
-    </div>
-    """, unsafe_allow_html=True)
-
-    col_up, col_tmpl = st.columns([3, 1])
-    with col_up:
-        uploaded = st.file_uploader('Select file', type='csv',
-                                    label_visibility='collapsed')
-    with col_tmpl:
-        template_csv = pd.DataFrame([{c: '' for c in feature_cols}]).to_csv(index=False)
-        st.download_button(
-            'Download CSV Template', template_csv,
-            'battery_fleet_template.csv', 'text/csv',
-            use_container_width=True,
-            help='Empty CSV with the exact required column headers'
-        )
+    uploaded = st.file_uploader(
+        'Upload battery fleet CSV — each row = one discharge cycle',
+        type='csv'
+    )
 
     if uploaded:
         batch_df = pd.read_csv(uploaded)
         st.markdown(f'**{len(batch_df):,} cycles loaded** — Preview (first 5 rows):')
         st.dataframe(batch_df.head(), use_container_width=True)
         st.markdown('<br>', unsafe_allow_html=True)
-
-        missing_cols = [c for c in feature_cols if c not in batch_df.columns]
-        if missing_cols:
-            st.markdown(f"""
-            <div class="health-alert alert-yellow">
-                <div class="health-alert-title">⚠ &nbsp;{len(missing_cols)} column(s) missing from upload</div>
-                <div class="health-alert-body">
-                    Missing: {', '.join(missing_cols)}<br>
-                    These will default to 0, which may reduce prediction accuracy.
-                    Download the CSV template above for the exact expected columns.
-                </div>
-            </div>""", unsafe_allow_html=True)
 
         if st.button('Run Fleet Analysis', use_container_width=True):
             try:
